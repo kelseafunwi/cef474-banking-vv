@@ -1,13 +1,16 @@
 #include "BankAccount.h"
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 BankAccount* globalAccount = nullptr;
+std::mutex accountMutex;
 
 void performTransactions()
 {
     for(int i=0;i<100000;i++)
     {
+        std::lock_guard<std::mutex> lock(accountMutex);
         globalAccount->deposit(1);
     }
 }
@@ -41,25 +44,25 @@ int main()
     account1.addTransaction(tx);
 
     Transaction* tx2 =
-        account1.getTransaction(100);
+        account1.getTransaction(0);
 
-    std::cout
-        << tx2->description
-        << std::endl;
+    if(tx2 != nullptr)
+    {
+        std::cout
+            << tx2->description
+            << std::endl;
+    }
+    else
+    {
+        std::cout << "Transaction not found.\n";
+    }
 
-    char* report =
+    std::string report =
         account1.generateReport();
 
     std::cout
         << report
         << std::endl;
-
-    int* ptr = nullptr;
-
-    if(account1.getBalance() > 100)
-    {
-        *ptr = 10;
-    }
 
     t1.join();
     t2.join();

@@ -39,7 +39,7 @@ public:
 
     void printStatement();
 
-    char* generateReport();
+    std::string generateReport() const;
 };
 
 #endif // BANKACCOUNT_H_INCLUDED

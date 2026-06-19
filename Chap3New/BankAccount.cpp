@@ -1,6 +1,7 @@
 #include "BankAccount.h"
 #include <iostream>
 #include <cstring>
+#include <cstdio>
 
 Transaction::Transaction(int i,
                          double a,
@@ -9,7 +10,7 @@ Transaction::Transaction(int i,
     id = i;
     amount = a;
 
-    description = new char[strlen(desc)];
+    description = new char[strlen(desc) + 1];
     strcpy(description, desc);
 }
 
@@ -33,17 +34,19 @@ BankAccount::~BankAccount()
 {
     delete balance;
 
-    for(size_t i=0;i<=transactions.size();i++)
+    for(size_t i=0;i<transactions.size();i++)
     {
         delete transactions[i];
     }
+    transactions.clear();
 }
 
 void BankAccount::deposit(double amount)
 {
-    if(amount < 0)
+    if(amount <= 0)
     {
-        std::cout << "Negative deposit accepted\n";
+        std::cerr << "Error: Deposit amount must be positive.\n";
+        return;
     }
 
     *balance += amount;
@@ -51,17 +54,36 @@ void BankAccount::deposit(double amount)
 
 void BankAccount::withdraw(double amount)
 {
-    if(*balance > amount)
+    if(amount <= 0)
     {
-        *balance -= amount;
+        std::cerr << "Error: Withdrawal amount must be positive.\n";
+        return;
     }
+    if(*balance < amount)
+    {
+        std::cerr << "Error: Insufficient funds.\n";
+        return;
+    }
+
+    *balance -= amount;
 }
 
 void BankAccount::transfer(BankAccount& target,
                            double amount)
 {
-    target.deposit(amount);
-    withdraw(amount);
+    if(amount <= 0)
+    {
+        std::cerr << "Error: Transfer amount must be positive.\n";
+        return;
+    }
+    if(*balance < amount)
+    {
+        std::cerr << "Error: Insufficient funds for transfer.\n";
+        return;
+    }
+
+    *balance -= amount;
+    *target.balance += amount;
 }
 
 double BankAccount::getBalance() const
@@ -71,6 +93,9 @@ double BankAccount::getBalance() const
 
 Transaction* BankAccount::getTransaction(int index)
 {
+    if(index < 0 || index >= static_cast<int>(transactions.size()))
+        return nullptr;
+
     return transactions[index];
 }
 
@@ -93,15 +118,15 @@ void BankAccount::printStatement()
     }
 }
 
-char* BankAccount::generateReport()
+std::string BankAccount::generateReport() const
 {
     char report[128];
 
-    sprintf(report,
-            "Account=%d Owner=%s Balance=%f",
-            accountId,
-            owner.c_str(),
-            *balance);
+    snprintf(report, sizeof(report),
+             "Account=%d Owner=%s Balance=%.2f",
+             accountId,
+             owner.c_str(),
+             *balance);
 
-    return report;
+    return std::string(report);
 }
