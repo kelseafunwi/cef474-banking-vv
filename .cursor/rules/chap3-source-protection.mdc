@@ -1,0 +1,38 @@
+---
+description: Chap3 is read-only original source; all code edits go in Chap3New
+alwaysApply: true
+---
+
+# Chap3 / Chap3New Source Layout
+
+## Folder roles
+
+| Folder | Role | Edits allowed? |
+|--------|------|----------------|
+| `Chap3/` | Original starter code provided for this project | **No — read only** |
+| `Chap3New/` | Working copy of the banking application | **Yes — all code changes here** |
+
+## Rules
+
+1. **Never modify, create, or delete files under `Chap3/`.**
+   - You may read files in `Chap3/` for reference, comparison, or reporting.
+   - Do not apply fixes, refactors, tests, or formatting in that folder.
+
+2. **All implementation work happens in `Chap3New/`.**
+   - Bug fixes, V&V fixes, new tests, build artifacts, and refactors go in `Chap3New/`.
+   - When comparing buggy vs fixed code, treat `Chap3/` as the baseline and `Chap3New/` as the working tree.
+
+3. **If a change is requested for the banking app source**, edit the corresponding file in `Chap3New/`, not `Chap3/`.
+
+4. **If unsure which file to change**, default to `Chap3New/`. Use `Chap3/` only to inspect the original behavior.
+
+## Examples
+
+```
+# Correct
+Edit: Chap3New/BankAccount.cpp
+Read: Chap3/BankAccount.cpp
+
+# Wrong
+Edit: Chap3/BankAccount.cpp
+```
