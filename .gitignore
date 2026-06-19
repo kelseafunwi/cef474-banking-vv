@@ -1,0 +1,63 @@
+# --- Cursor / IDE (local tooling only) ---
+.cursor/
+.cursorignore
+.cursorrules
+*.cursor-*
+
+# --- Reports (submit separately, not in repo) ---
+VV_Banking_Application_Report.md
+REPORT_PASTE_UPDATES.md
+*Report*.md
+*REPORT*.md
+reports/
+
+# --- AI / assistant artifacts ---
+*_PASTE_UPDATES.md
+.agent/
+.agents/
+.aider*
+.copilot/
+
+# --- Build outputs ---
+banking_app
+banking_asan
+banking_static
+test_bank
+test_bank_asan
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+
+# --- Debug symbols ---
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# --- Code::Blocks ---
+bin/
+obj/
+*.depend
+*.layout
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# --- Editor / OS swap files ---
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# --- Test artifacts (keep source if added later) ---
+# Uncomment if you add tests but don't want binaries tracked:
+# tests/test_bank
+# tests/test_bank_asan
